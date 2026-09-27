@@ -38,8 +38,9 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-lg-12 text-center">
-                                <h5 class="font-weight-bold">{{ auth()->user()->role }}</h5>
-                                <p>{{ auth()->user()->email ?? 'User' }}</p>
+                                <h5 class="font-weight-bold mb-1">{{ auth()->user()->role === 'admin' ? 'Administrator' : (auth()->user()->penduduk->nama ?? 'Warga') }}</h5>
+                                <p class="text-muted text-sm">{{ ucfirst(auth()->user()->role) }}</p>
+                                <p class="mb-0">{{ auth()->user()->email }}</p>
                             </div>
                         </div>
 
@@ -79,15 +80,14 @@
 
                     <div class="pl-lg-4">
                         <div class="row mb-3">
-                            {{-- <div class="col-lg-6">
+                            <div class="col-lg-6">
                                 <div class="form-group focused">
-                                    <label class="form-control-label" for="name">Nama<span
-                                            class="small text-danger">*</span></label>
+                                    <label class="form-control-label" for="name">Nama Lengkap</label>
                                     <input type="text" id="name" class="form-control" name="nama"
-                                        value="{{ auth()->user()->nama }}" placeholder="Name">
+                                        value="{{ auth()->user()->role === 'admin' ? 'Administrator' : (auth()->user()->penduduk->nama ?? '-') }}" readonly disabled>
                                 </div>
-                            </div> --}}
-                            <div class="col-lg-12">
+                            </div>
+                            <div class="col-lg-6">
                                 <label class="form-control-label" for="username">Email<span
                                         class="small text-danger">*</span></label>
                                 <input type="email" id="username" class="form-control" name="email"

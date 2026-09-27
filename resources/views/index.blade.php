@@ -1,561 +1,329 @@
-<!DOCTYPE html>
+@extends('layouts.landing')
 
-<html class="light" lang="id">
+@section('content')
+<!-- BEGIN: HeroSection -->
+<section class="relative pt-12 overflow-hidden hero-gradient pb-16" id="beranda">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<!-- Left Content -->
+<div class="lg:col-span-6 space-y-6">
+<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200/60 text-brand-600 text-xs font-semibold tracking-wide">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            PORTAL RESMI PEMERINTAH DESA&nbsp;</div>
+<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+            Layanan <span class="text-brand-600">Desa Lubuk Bernai</span> Lebih Cepat &amp; Transparan
+          </h1>
+<p class="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl">
+            Mewujudkan tata kelola desa yang modern dan inklusif. Urus administrasi kependudukan dan pantau kabar desa dengan mudah langsung dari layar gawai Anda.
+          </p>
+<!-- Primary Actions -->
+<div class="flex flex-wrap items-center gap-4 pt-2">
+<a class="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm transition-all shadow-lg shadow-brand-600/30 hover:shadow-brand-600/40 transform hover:-translate-y-0.5" href="{{ route('pengajuan-surat.create') }}">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Ajukan Surat Online</span>
+</a>
+<a class="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-semibold text-sm border border-slate-200 transition-all hover:border-slate-300" href="#berita">
+<span class="">Lihat Berita Desa</span>
+<svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</a>
+</div>
+<!-- Quick Service Search Box -->
+<div class="pt-4 max-w-md">
+<div class="relative flex items-center">
+<span class="absolute left-4 text-slate-400">
 
-<head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Desa Lubuk Bernai | Portal Layanan Digital</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <style>
-        html {
-            scroll-behavior: smooth;
-        }
-    </style>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "primary": "#1E3A8A", // Blue 900
-                        "on-primary": "#ffffff",
-                        "primary-container": "#DBEAFE", // Blue 100
-                        "on-primary-container": "#1E3A8A",
-                        "secondary": "#3B82F6", // Blue 500
-                        "on-secondary": "#ffffff",
-                        "secondary-container": "#EFF6FF", // Blue 50
-                        "on-secondary-container": "#1E3A8A",
-                        "tertiary": "#F59E0B", // Amber 500
-                        "on-tertiary": "#ffffff",
-                        "background": "#F8FAFC", // Slate 50
-                        "on-background": "#1E293B", // Slate 800
-                        "surface": "#FFFFFF",
-                        "on-surface": "#1E293B",
-                        "surface-variant": "#F1F5F9",
-                        "on-surface-variant": "#475569",
-                        "outline": "#94A3B8",
-                        "outline-variant": "#CBD5E1",
-                        "surface-container-low": "#F8FAFC",
-                        "surface-container": "#F1F5F9",
-                        "surface-container-high": "#E2E8F0",
-                        "surface-container-highest": "#CBD5E1",
-                        "surface-container-lowest": "#FFFFFF",
-                        "inverse-surface": "#1E293B",
-                        "inverse-on-surface": "#F8FAFC",
-                        "primary-fixed": "#1E3A8A",
-                        "tertiary-fixed": "#F59E0B",
-                        "on-tertiary-fixed": "#1E293B"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "16px",
-                        "xl": "24px",
-                        "full": "9999px"
-                    },
-                    
-                    
-                    
-                },
-            },
-        }
-    </script>
-    <style>
-        .glass-card {
-            background: rgba(248, 250, 252, 0.7); /* slate-50 */
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
+</span>
 
-        .hero-gradient {
-            background: linear-gradient(to right, rgba(30, 58, 138, 0.9), rgba(30, 58, 138, 0.6));
-        }
 
-        .soft-elevation {
-            box-shadow: 0 10px 32px -4px rgba(30, 58, 138, 0.1);
-        }
+</div>
 
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in-up { 
-            animation: fadeInUp 0.8s ease-out forwards; 
-            opacity: 0; 
-        }
+</div>
+</div>
+<!-- Right Hero Media Presentation -->
+<div class="lg:col-span-6 relative">
+<div class="relative mx-auto rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-slate-100 max-h-[500px] group">
+<img alt="Kantor dan Suasana Desa Lubuk Bernai" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" src="{{ asset('images/hero-desa.jpg') }}">
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        .animate-float { animation: float 4s ease-in-out infinite; }
-    </style>
-</head>
+</div>
+</div>
+</div>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: VillageStatistics -->
+<section class="relative -mt-12 z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 bg-white p-6 sm:p-8 rounded-3xl shadow-xl shadow-slate-200/70 border border-slate-100">
+<!-- Stat 1 -->
+<div class="flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors">
+<div class="w-14 h-14 rounded-2xl bg-blue-50 text-brand-600 flex items-center justify-center shrink-0 border border-blue-100">
+<svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<span class="text-xs uppercase tracking-wider font-semibold text-slate-400 block">Jumlah Penduduk</span>
+<span class="text-2xl sm:text-3xl font-extrabold text-slate-800">~4.500</span>
+<span class="text-[11px] text-slate-500 block">Jiwa terdaftar</span>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors">
+<div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0 border border-indigo-100">
+<svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+<path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<span class="text-xs uppercase tracking-wider font-semibold text-slate-400 block">Kepala Keluarga</span>
+<span class="text-2xl sm:text-3xl font-extrabold text-slate-800">~1.200</span>
+<span class="text-[11px] text-slate-500 block">KK Aktif</span>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors">
+<div class="w-14 h-14 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center shrink-0 border border-sky-100">
+<svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<span class="text-xs uppercase tracking-wider font-semibold text-slate-400 block">Rukun Tetangga</span>
+<span class="text-2xl sm:text-3xl font-extrabold text-slate-800">24</span>
+<span class="text-[11px] text-slate-500 block">Wilayah RT</span>
+</div>
+</div>
+<!-- Stat 4 -->
+<div class="flex items-center gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors">
+<div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0 border border-emerald-100">
+<svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+<path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<span class="text-xs uppercase tracking-wider font-semibold text-slate-400 block">Jumlah Dusun</span>
+<span class="text-2xl sm:text-3xl font-extrabold text-slate-800">6</span>
+<span class="text-[11px] text-slate-500 block">Dusun Pemukiman</span>
+</div>
+</div>
+</div>
+</section>
+<!-- END: VillageStatistics -->
+<!-- BEGIN: OnlineLetterServices -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12" id="layanan">
+<div class="text-center max-w-2xl mx-auto mb-10">
+<span class="px-3.5 py-1.5 rounded-full bg-blue-50 text-brand-600 text-xs font-bold tracking-wide uppercase">Layanan Mandiri</span>
+<h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight mt-3">Layanan Surat Online</h2>
+<p class="text-slate-600 mt-3 text-base">Proses permohonan surat kini lebih mudah, cepat, dan transparan langsung dari genggaman Anda tanpa perlu bolak-balik ke kantor desa.</p>
+</div>
+<!-- Letter Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1: SK Domisili -->
+<div class="bg-white rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between hover:shadow-xl hover:border-brand-500/40 transition-all duration-300 group">
+<div>
+<div class="flex items-center justify-between mb-5">
+<div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-600 flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white transition-colors">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+<path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
 
-<body class="bg-background text-on-surface text-base">
-    <!-- TopNavBar -->
-    <header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-md shadow-sm transition-all duration-300">
-        <nav id="navbar" class="flex justify-between items-center px-6 py-6 max-w-7xl mx-auto transition-all duration-300">
-            <div class="flex items-center gap-3">
-                <img src="{{ asset('images/sekolah.png') }}" alt="Logo Desa" class="w-10 h-10 object-contain">
-                <span class="text-2xl font-bold leading-tight text-primary">Desa
-                    Lubuk Bernai</span>
-            </div>
-            <div class="hidden md:flex items-center gap-12 nav-menu">
-                <a class="nav-link text-primary transition-colors text-base font-bold leading-relaxed relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary after:rounded-full"
-                    href="/#home" data-target="home">Beranda</a>
-                <a class="nav-link text-on-surface-variant hover:text-primary transition-colors text-base font-normal leading-relaxed"
-                    href="/#layanan" data-target="layanan">Layanan Surat</a>
-                <a class="nav-link text-on-surface-variant hover:text-primary transition-colors text-base font-normal leading-relaxed"
-                    href="/#berita" data-target="berita">Berita</a>
-            </div>
-            <div class="flex items-center gap-6">
-                <a class="px-8 py-2.5 bg-primary text-white rounded-full text-sm font-medium tracking-wide transition-colors duration-200 hover:bg-blue-800 hover:shadow-md"
-                    href="{{ route('login') }}">Login</a>
-            </div>
-        </nav>
-    </header>
-    <main class="pt-20">
-        <!-- Hero Section -->
-        <section id="home" class="relative min-h-[70vh] lg:min-h-[75vh] flex items-center bg-surface overflow-hidden">
-            <!-- Background element -->
-            <div class="absolute inset-0 bg-primary/5 z-0">
-                <div class="absolute right-0 top-0 w-1/2 h-full bg-primary/10 rounded-l-[100px] transform translate-x-1/4 skew-x-12"></div>
-            </div>
-            
-            <div class="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center -mt-24">
-                    <div class="max-w-xl animate-fade-in-up">
+</div>
+<h3 class="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors">SK Domisili</h3>
+<p class="text-sm text-slate-500 mt-2 leading-relaxed">
+            Surat keterangan tempat tinggal resmi dari pemerintah desa untuk keperluan administrasi dan pencatatan.
+          </p>
+</div>
+<div class="mt-8 pt-4 border-t border-slate-100">
+<a class="w-full py-2.5 px-4 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm" href="{{ route('pengajuan-surat.create') }}">
+<span class="">Ajukan Sekarang</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</a>
+</div>
+</div>
+<!-- Card 2: SK Usaha -->
+<div class="bg-white rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between hover:shadow-xl hover:border-brand-500/40 transition-all duration-300 group">
+<div>
+<div class="flex items-center justify-between mb-5">
+<div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white transition-colors">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+<path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
 
-                        <h1 class="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight text-on-surface mb-6 leading-tight">
-                            Layanan <span class="text-secondary">Desa Lubuk Bernai</span> Lebih Cepat & Transparan
-                        </h1>
-                        <p class="text-lg font-normal leading-relaxed text-on-surface-variant mb-12">
-                            Mewujudkan tata kelola desa yang modern dan inklusif. Urus administrasi dan pantau kabar desa dengan mudah langsung dari layar Anda.
-                        </p>
-                        <div class="flex flex-row flex-wrap gap-4 mt-4">
-                            <a class="px-8 py-3 bg-secondary text-white rounded-full text-lg font-semibold shadow-md hover:-translate-y-1 hover:shadow-lg hover:bg-blue-600 transition-all duration-300 flex justify-center items-center gap-2 group w-full sm:w-auto"
-                                href="/#layanan">
-                                Ajukan Surat
-                                <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform text-xl" aria-hidden="true">description</span>
-                            </a>
-                            <a class="px-8 py-3 border-2 border-primary text-primary rounded-full text-lg font-semibold hover:bg-primary hover:text-white transition-all duration-300 flex justify-center items-center w-full sm:w-auto"
-                                href="/#berita">
-                                Lihat Berita
-                            </a>
-                        </div>
-                    </div>
-                    
-                    <div class="relative hidden lg:block animate-fade-in-up" style="animation-delay: 0.2s;">
-                        <img alt="Kantor Desa Modern Lubuk Bernai" class="w-full aspect-[4/3] object-cover rounded-2xl shadow-2xl animate-float border-4 border-white"
-                            src="{{ asset('images/kantor_desa_hero.jpg') }}" />
-                        
-                    </div>
-                </div>
-            </div>
-        </section>
+</div>
+<h3 class="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors">SK Usaha</h3>
+<p class="text-sm text-slate-500 mt-2 leading-relaxed">
+            Legalitas usaha mikro dan UMKM untuk syarat pengajuan kredit KUR, perizinan, dan perbankan.
+          </p>
+</div>
+<div class="mt-8 pt-4 border-t border-slate-100">
+<a class="w-full py-2.5 px-4 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm" href="{{ route('pengajuan-surat.create') }}">
+<span class="">Ajukan Sekarang</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</a>
+</div>
+</div>
+<!-- Card 3: SKTM -->
+<div class="bg-white rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between hover:shadow-xl hover:border-brand-500/40 transition-all duration-300 group">
+<div>
+<div class="flex items-center justify-between mb-5">
+<div class="w-12 h-12 rounded-xl bg-cyan-50 text-cyan-600 flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white transition-colors">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
 
-        <!-- Statistics Grid -->
-        <section class="relative z-20 -mt-12 lg:-mt-24 pb-12">
-            <div class="max-w-7xl mx-auto px-6 md:px-12">
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div
-                        class="bg-surface p-6 rounded-xl shadow-lg border border-outline-variant/30 flex items-center gap-6 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 animate-fade-in-up" style="animation-delay: 0.3s;">
-                        <div
-                            class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
-                            <span class="material-symbols-outlined text-4xl"
-                                style="font-variation-settings: 'FILL' 1;" aria-hidden="true">groups</span>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-on-surface-variant">Jumlah Penduduk</p>
-                            <h3 class="text-4xl font-bold text-primary">~4,500</h3>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-surface p-6 rounded-xl shadow-lg border border-outline-variant/30 flex items-center gap-6 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 animate-fade-in-up" style="animation-delay: 0.4s;">
-                        <div
-                            class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
-                            <span class="material-symbols-outlined text-4xl"
-                                style="font-variation-settings: 'FILL' 1;" aria-hidden="true">family_restroom</span>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-on-surface-variant">Kepala Keluarga</p>
-                            <h3 class="text-4xl font-bold text-primary">~1,200</h3>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-surface p-6 rounded-xl shadow-lg border border-outline-variant/30 flex items-center gap-6 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 animate-fade-in-up" style="animation-delay: 0.5s;">
-                        <div
-                            class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
-                            <span class="material-symbols-outlined text-4xl"
-                                style="font-variation-settings: 'FILL' 1;" aria-hidden="true">home</span>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-on-surface-variant">Jumlah RT</p>
-                            <h3 class="text-4xl font-bold text-primary">24</h3>
-                        </div>
-                    </div>
-                    <div
-                        class="bg-surface p-6 rounded-xl shadow-lg border border-outline-variant/30 flex items-center gap-6 hover:-translate-y-2 hover:shadow-xl transition-all duration-300 animate-fade-in-up" style="animation-delay: 0.6s;">
-                        <div
-                            class="w-16 h-16 rounded-full bg-secondary-container flex items-center justify-center text-secondary">
-                            <span class="material-symbols-outlined text-4xl"
-                                style="font-variation-settings: 'FILL' 1;" aria-hidden="true">location_city</span>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-on-surface-variant">Jumlah Dusun</p>
-                            <h3 class="text-4xl font-bold text-primary">6</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Online Letter Services -->
-        <section class="py-12 bg-surface" id="layanan">
-            <div class="max-w-7xl mx-auto px-6 md:px-12">
-                <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-                    <div class="max-w-2xl">
-                        <span
-                            class="px-4 py-1 bg-secondary-container text-on-secondary-container rounded-full text-xs font-semibold uppercase uppercase tracking-wider mb-4 inline-block">Layanan
-                            Mandiri</span>
-                        <h2 class="text-4xl font-bold text-on-surface mb-2">Layanan Surat Online</h2>
-                        <p class="text-lg text-on-surface-variant">Proses permohonan surat kini lebih mudah, cepat,
-                            dan transparan langsung dari genggaman Anda.</p>
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-                    <!-- Service Card 1 -->
-                    <div
-                        class="bg-white p-6 rounded-2xl border border-slate-200 hover:border-secondary hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden flex flex-col h-full">
-                        <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <span class="material-symbols-outlined text-6xl" aria-hidden="true">distance</span>
-                        </div>
-                        <div
-                            class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center text-secondary mb-6">
-                            <span class="material-symbols-outlined" aria-hidden="true">distance</span>
-                        </div>
-                        <h4 class="text-xl font-bold text-on-surface mb-4">SK Domisili</h4>
-                        <p class="text-base text-on-surface-variant mb-12">Surat keterangan tempat tinggal resmi dari
-                            pemerintah desa.</p>
-                        <button
-                            class="w-full py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-blue-800 transition-colors mt-auto">Ajukan
-                            Sekarang</button>
-                    </div>
-                    <!-- Service Card 2 -->
-                    <div
-                        class="bg-white p-6 rounded-2xl border border-slate-200 hover:border-secondary hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden flex flex-col h-full">
-                        <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <span class="material-symbols-outlined text-6xl" aria-hidden="true">storefront</span>
-                        </div>
-                        <div
-                            class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center text-secondary mb-6">
-                            <span class="material-symbols-outlined" aria-hidden="true">storefront</span>
-                        </div>
-                        <h4 class="text-xl font-bold text-on-surface mb-4">SK Usaha</h4>
-                        <p class="text-base text-on-surface-variant mb-12">Legalitas usaha mikro untuk keperluan
-                            administrasi perbankan.</p>
-                        <button
-                            class="w-full py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-blue-800 transition-colors mt-auto">Ajukan
-                            Sekarang</button>
-                    </div>
-                    <!-- Service Card 3 -->
-                    <div
-                        class="bg-white p-6 rounded-2xl border border-slate-200 hover:border-secondary hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden flex flex-col h-full">
-                        <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <span class="material-symbols-outlined text-6xl" aria-hidden="true">assignment_ind</span>
-                        </div>
-                        <div
-                            class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center text-secondary mb-6">
-                            <span class="material-symbols-outlined" aria-hidden="true">assignment_ind</span>
-                        </div>
-                        <h4 class="text-xl font-bold text-on-surface mb-4">SKTM</h4>
-                        <p class="text-base text-on-surface-variant mb-12">Surat keterangan tidak mampu untuk
-                            layanan bantuan sosial.</p>
-                        <button
-                            class="w-full py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-blue-800 transition-colors mt-auto">Ajukan
-                            Sekarang</button>
-                    </div>
-                    <!-- Service Card 4 -->
-                    <div
-                        class="bg-white p-6 rounded-2xl border border-slate-200 hover:border-secondary hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group relative overflow-hidden flex flex-col h-full">
-                        <div class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                            <span class="material-symbols-outlined text-6xl" aria-hidden="true">child_care</span>
-                        </div>
-                        <div
-                            class="w-12 h-12 rounded-lg bg-secondary-container flex items-center justify-center text-secondary mb-6">
-                            <span class="material-symbols-outlined" aria-hidden="true">child_care</span>
-                        </div>
-                        <h4 class="text-xl font-bold text-on-surface mb-4">SK Kelahiran</h4>
-                        <p class="text-base text-on-surface-variant mb-12">Layanan administrasi dasar bagi
-                            putra-putri warga desa.</p>
-                        <button
-                            class="w-full py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-blue-800 transition-colors mt-auto">Ajukan
-                            Sekarang</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Village News -->
-        <!-- Style untuk menghilangkan scrollbar bawaan browser namun tetap bisa di-scroll -->
-        <style>
-            .hide-scrollbar::-webkit-scrollbar {
-                display: none;
-            }
-            .hide-scrollbar {
-                -ms-overflow-style: none;
-                scrollbar-width: none;
-            }
-        </style>
-        <section class="py-12 bg-surface-container-low relative" id="berita">
-            <div class="max-w-7xl mx-auto px-6 md:px-12">
+</div>
+<h3 class="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors">SKTM</h3>
+<p class="text-sm text-slate-500 mt-2 leading-relaxed">
+            Surat keterangan tidak mampu untuk keperluan keringanan biaya pendidikan, beasiswa, dan bantuan sosial.
+          </p>
+</div>
+<div class="mt-8 pt-4 border-t border-slate-100">
+<a class="w-full py-2.5 px-4 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm" href="{{ route('pengajuan-surat.create') }}">
+<span class="">Ajukan Sekarang</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</a>
+</div>
+</div>
+<!-- Card 4: SK Kelahiran -->
+<div class="bg-white rounded-2xl border border-slate-200/80 p-6 flex flex-col justify-between hover:shadow-xl hover:border-brand-500/40 transition-all duration-300 group">
+<div>
+<div class="flex items-center justify-between mb-5">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white transition-colors">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+<path d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
 
-                <div class="flex justify-between items-end mb-12">
-                    <div>
-                        <h2 class="text-4xl font-bold text-on-surface mb-4">
-                            Kabar Terkini Lubuk Bernai
-                        </h2>
-                        <div class="h-1 w-24 bg-primary rounded-full"></div>
-                    </div>
-                    <div class="hidden md:flex items-center gap-2">
-                        <button id="berita-prev" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all shadow-sm">
-                            <span class="material-symbols-outlined text-[18px]">arrow_back</span>
-                        </button>
-                        <button id="berita-next" class="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all shadow-sm">
-                            <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
-                        </button>
-                    </div>
-                </div>
+</div>
+<h3 class="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors">SK Kelahiran</h3>
+<p class="text-sm text-slate-500 mt-2 leading-relaxed">
+            Layanan administrasi dasar bagi putra-putri warga baru sebagai pengantar penerbitan Akta Catatan Sipil.
+          </p>
+</div>
+<div class="mt-8 pt-4 border-t border-slate-100">
+<a class="w-full py-2.5 px-4 rounded-xl bg-brand-700 hover:bg-brand-800 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm" href="{{ route('pengajuan-surat.create') }}">
+<span class="">Ajukan Sekarang</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</a>
+</div>
+</div>
+</div>
+<!-- Info Banner for Requirements -->
+<div class="mt-10 p-5 rounded-2xl bg-gradient-to-r from-blue-900 to-brand-800 text-white flex flex-col md:flex-row items-center justify-between gap-4">
+<div class="flex items-center gap-3">
+<div class="p-2.5 rounded-lg bg-white/10 shrink-0">
+<svg class="w-6 h-6 text-yellow-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<p class="text-sm leading-relaxed text-blue-50">
+          Semua dokumen yang diterbitkan telah terverifikasi secara elektronik dan sah digunakan di tingkat instansi terkait.
+        </p>
+</div>
 
-                <!-- Container Scrollable -->
-                <div id="berita-slider" class="flex overflow-x-auto gap-6 pb-8 snap-x snap-mandatory hide-scrollbar scroll-smooth">
+</div>
+</section>
+<!-- END: OnlineLetterServices -->
+<!-- BEGIN: VillageNewsSection -->
+<section class="bg-slate-100/70 border-t border-slate-200/60 py-12" id="berita">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Section Header with Arrows -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+<div>
+<span class="text-brand-600 font-bold text-xs uppercase tracking-wider block mb-1">Pembaruan &amp; Publikasi</span>
+<h2 class="text-3xl font-extrabold text-slate-900">Kabar Terkini Lubuk Bernai</h2>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="Previous" class="w-10 h-10 rounded-full border border-slate-300 bg-white flex items-center justify-center text-slate-600 hover:bg-brand-600 hover:text-white hover:border-brand-600 transition shadow-sm">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</button>
+<button aria-label="Next" class="w-10 h-10 rounded-full border border-slate-300 bg-white flex items-center justify-center text-slate-600 hover:bg-brand-600 hover:text-white hover:border-brand-600 transition shadow-sm">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</button>
+</div>
+</div>
+<!-- News Cards Grid -->
+<div id="news-carousel" class="flex overflow-x-hidden snap-x snap-mandatory gap-8 scroll-smooth w-full">
+@forelse ($berita as $item)
+<!-- News Card -->
+<article class="bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-lg transition flex flex-col group w-full md:w-[calc(33.333%-1.33rem)] shrink-0 snap-start">
+<div class="relative h-40 overflow-hidden bg-slate-200">
+@if($item->thumbnail)
+<img alt="{{ $item->judul }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="{{ asset('storage/' . $item->thumbnail) }}">
+@else
+<div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-400 group-hover:scale-105 transition-transform duration-500">
+<svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+</div>
+@endif
+<div class="absolute top-4 left-4">
+<span class="px-3 py-1 rounded-md bg-brand-700 text-white font-bold text-[10px] tracking-wide uppercase">{{ $item->kategori->nama ?? 'BERITA DESA' }}</span>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col justify-between">
+<div>
+<time class="text-xs font-semibold text-slate-400 block mb-2">{{ strtoupper($item->created_at->translatedFormat('d F Y')) }}</time>
+<h3 class="text-lg font-bold text-slate-900 group-hover:text-brand-600 transition-colors leading-snug">
+{{ $item->judul }}
+</h3>
+<p class="text-slate-600 text-xs sm:text-sm mt-3 leading-relaxed line-clamp-3">
+{{ Str::limit(strip_tags($item->konten), 100) }}
+</p>
+</div>
+<div class="pt-5 mt-5 border-t border-slate-100 flex items-center justify-between">
+<a class="inline-flex items-center gap-1.5 text-xs font-bold text-brand-600 hover:text-brand-800" href="{{ route('berita.show', $item->slug) }}">
+<span class="">Baca Selengkapnya</span>
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</a>
+</div>
+</div>
+</article>
+@empty
+<div class="col-span-1 md:col-span-3 text-center py-10">
+<p class="text-slate-500">Belum ada berita terbaru.</p>
+</div>
+@endforelse
+</div>
+</div>
+</section>
+<!-- END: VillageNewsSection -->
+<!-- BEGIN: VillageAgendaSchedule -->
 
-                    @forelse($berita as $item)
-                        <article
-                            class="bg-white rounded-2xl overflow-hidden border border-slate-100 hover:border-slate-300 hover:-translate-y-1 hover:shadow-xl transition-all duration-300 group flex-none w-[85vw] md:w-[calc(33.333%-1rem)] snap-start flex flex-col h-full">
+<!-- END: VillageAgendaSchedule -->
 
-                            <div class="h-48 relative overflow-hidden">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const carousel = document.getElementById('news-carousel');
+    const prevBtn = document.querySelector('button[aria-label="Previous"]');
+    const nextBtn = document.querySelector('button[aria-label="Next"]');
 
-                                <img src="{{ $item->thumbnail_url }}" alt="{{ $item->judul }}"
-                                    class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+    if (carousel && prevBtn && nextBtn) {
+        const scrollAmount = () => {
+            const card = carousel.firstElementChild;
+            return card ? card.clientWidth + 32 : 300;
+        };
 
-                                <div class="absolute top-4 left-4">
-
-                                    <span class="bg-primary text-on-primary px-4 py-1 rounded text-xs font-semibold uppercase">
-                                        Berita Desa
-                                    </span>
-
-                                </div>
-
-                            </div>
-
-                            <div class="p-6 flex flex-col flex-grow">
-
-                                <time class="text-xs font-semibold uppercase text-on-surface-variant">
-                                    {{ $item->created_at->format('d F Y') }}
-                                </time>
-
-                                <h3 class="text-xl font-bold text-on-surface mt-2 mb-4 group-hover:text-primary transition-colors">
-                                    {{ Str::limit($item->judul, 60) }}
-                                </h3>
-
-                                <p class="text-base text-on-surface-variant line-clamp-3 mb-6">
-                                    {{ Str::limit(strip_tags($item->konten), 120) }}
-                                </p>
-
-                                <div class="mt-auto">
-                                    <a href="{{ route('berita.show', $item->slug) }}"
-                                        class="text-primary text-sm font-medium flex items-center gap-2 group-hover:underline">
-    
-                                        Baca Selengkapnya
-    
-                                        <span
-                                            class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">
-                                            arrow_right_alt
-                                        </span>
-    
-                                    </a>
-                                </div>
-
-                            </div>
-
-                        </article>
-                        @php
-                            $placeholderCount = 3 - $berita->count();
-                        @endphp
-                    @empty
-                    @endforelse
-                    
-                    @if(isset($placeholderCount) && $placeholderCount > 0)
-                        @for ($i = 0; $i < $placeholderCount; $i++)
-                            <article
-                                class="bg-white rounded-2xl overflow-hidden border border-slate-100 opacity-80 group flex-none w-[85vw] md:w-[calc(33.333%-1rem)] snap-start flex flex-col h-full">
-    
-                                <div class="h-48 relative overflow-hidden">
-    
-                                    <img src="https://placehold.co/600x400/e2e8f0/64748b?text=Berita+Desa"
-                                        alt="Placeholder Berita" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-    
-                                    <div class="absolute top-4 left-4">
-    
-                                        <span class="bg-gray-500 text-white px-4 py-1 rounded text-xs font-semibold uppercase">
-                                            Segera Hadir
-                                        </span>
-    
-                                    </div>
-    
-                                </div>
-    
-                                <div class="p-6 flex flex-col flex-grow">
-    
-                                    <time class="text-xs font-semibold uppercase text-on-surface-variant">
-                                        -
-                                    </time>
-    
-                                    <h3 class="text-xl font-bold text-on-surface mt-2 mb-4">
-                                        Informasi Desa Akan Segera Diperbarui
-                                    </h3>
-    
-                                    <p class="text-base text-on-surface-variant line-clamp-3 mb-6">
-                                        Pemerintah Desa Lubuk Bernai akan terus menghadirkan
-                                        informasi dan kegiatan terbaru untuk masyarakat.
-                                    </p>
-    
-                                    <div class="mt-auto">
-                                        <span class="text-gray-400 text-sm font-medium flex items-center gap-2 cursor-not-allowed">
-        
-                                            Belum Tersedia
-        
-                                        </span>
-                                    </div>
-    
-                                </div>
-    
-                            </article>
-                        @endfor
-                    @endif
-                    
-                    
-                </div>
-
-            </div>
-            
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const slider = document.getElementById('berita-slider');
-                    const btnPrev = document.getElementById('berita-prev');
-                    const btnNext = document.getElementById('berita-next');
-
-                    if(btnNext && btnPrev && slider) {
-                        btnNext.addEventListener('click', () => {
-                            // Scroll by the width of one card plus gap
-                            const scrollAmount = window.innerWidth < 768 ? window.innerWidth * 0.85 : slider.clientWidth / 3;
-                            slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-                        });
-                        btnPrev.addEventListener('click', () => {
-                            const scrollAmount = window.innerWidth < 768 ? window.innerWidth * 0.85 : slider.clientWidth / 3;
-                            slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-                        });
-                    }
-                });
-            </script>
-        </section>
-        
-    </main>
-    <!-- Footer -->
-    <footer class="bg-slate-900 w-full pt-20 pb-6">
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 px-6 max-w-7xl mx-auto">
-            <div class="md:col-span-4">
-                <span class="text-xl font-bold leading-tight font-bold text-white mb-6 block">Desa Lubuk Bernai</span>
-                <p class="text-slate-300 text-base font-normal leading-relaxed mb-6">Mewujudkan desa digital yang mandiri, sejahtera, dan berbudaya melalui inovasi layanan publik yang transparan.</p>
-                <div class="flex gap-6">
-                    <a class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-800 text-white hover:bg-secondary hover:text-white transition-all"
-                        href="#" aria-label="Website"><span class="material-symbols-outlined" aria-hidden="true" aria-hidden="true">public</span></a>
-                    <a class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-800 text-white hover:bg-secondary hover:text-white transition-all"
-                        href="#" aria-label="Email"><span class="material-symbols-outlined" aria-hidden="true" aria-hidden="true">mail</span></a>
-                    <a class="w-10 h-10 flex items-center justify-center rounded-full bg-slate-800 text-white hover:bg-secondary hover:text-white transition-all"
-                        href="#" aria-label="Phone"><span class="material-symbols-outlined" aria-hidden="true" aria-hidden="true">call</span></a>
-                </div>
-            </div>
-            <div class="md:col-span-2">
-                <h4 class="text-sm font-medium tracking-wide text-white mb-6">Layanan</h4>
-                <ul class="flex flex-col gap-4">
-                    <li><a class="text-slate-400 hover:text-secondary transition-colors hover:underline text-base text-base" href="#">Administrasi</a></li>
-                    <li><a class="text-slate-400 hover:text-secondary transition-colors hover:underline text-base text-base" href="#">Kesehatan</a></li>
-                    <li><a class="text-slate-400 hover:text-secondary transition-colors hover:underline text-base text-base" href="#">Pendidikan</a></li>
-                    <li><a class="text-slate-400 hover:text-secondary transition-colors hover:underline text-base text-base" href="#">UMKM Desa</a></li>
-                </ul>
-            </div>
-            <div class="md:col-span-2">
-                <h4 class="text-sm font-medium tracking-wide text-white mb-6">Informasi</h4>
-                <ul class="flex flex-col gap-4">
-                    <li><a class="text-slate-400 hover:text-secondary transition-colors hover:underline text-base text-base" href="#">Kebijakan Privasi</a></li>
-                    <li><a class="text-slate-400 hover:text-secondary transition-colors hover:underline text-base text-base" href="#">Syarat &amp; Ketentuan</a></li>
-                    <li><a class="text-slate-400 hover:text-secondary transition-colors hover:underline text-base text-base" href="#">Peta Situs</a></li>
-                    <li><a class="text-slate-400 hover:text-secondary transition-colors hover:underline text-base text-base" href="#">Bantuan</a></li>
-                </ul>
-            </div>
-            <div class="md:col-span-4">
-                <h4 class="text-sm font-medium tracking-wide text-white mb-6">Alamat Kantor</h4>
-                <p class="text-slate-300 text-base font-normal leading-relaxed flex gap-2">
-                    <span class="material-symbols-outlined text-secondary" aria-hidden="true">location_on</span>
-                    Jl. Raya Lubuk Bernai No. 01, Kec. Batang Asam, Kab. Tanjung Jabung Barat, Jambi 36552
-                </p>
-                <div class="mt-6 h-32 w-full rounded-lg bg-slate-800 overflow-hidden border border-slate-700">
-                    <div class="w-full h-full flex items-center justify-center">
-                        <span class="text-xs font-semibold uppercase text-xs font-semibold uppercase text-slate-500">Interactive Map Loading...</span>
-                    </div>
-                </div>
-            </div>
-            <div class="md:col-span-12 pt-12 mt-6 border-t border-slate-800 text-center">
-                <p class="text-slate-500 text-sm font-medium tracking-wide">© 2024 Desa Lubuk Bernai, Kabupaten Tanjung Jabung Barat. All Rights Reserved.</p>
-            </div>
-        </div>
-    </footer>
-    <script>
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            const nav = document.getElementById('navbar');
-            
-            // Scrollspy logic
-            const sections = document.querySelectorAll('section[id]');
-            const scrollY = window.scrollY;
-            
-            sections.forEach(current => {
-                const sectionHeight = current.offsetHeight;
-                const sectionTop = current.offsetTop - 100;
-                const sectionId = current.getAttribute('id');
-                const navLink = document.querySelector('.nav-menu a[data-target="' + sectionId + '"]');
-                
-                if (navLink && scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                    // Remove active classes from all
-                    document.querySelectorAll('.nav-menu a').forEach(a => {
-                        a.className = "nav-link text-on-surface-variant hover:text-primary transition-colors text-base font-normal leading-relaxed";
-                    });
-                    // Add active class to current
-                    navLink.className = "nav-link text-primary transition-colors text-base font-bold leading-relaxed relative after:absolute after:-bottom-1 after:left-0 after:w-full after:h-0.5 after:bg-primary after:rounded-full";
-                }
-            });
-
-            if (window.scrollY > 50) {
-                header.classList.add('shadow-md', 'bg-surface/95');
-                header.classList.remove('shadow-sm', 'bg-surface/90');
-                
-                nav.classList.add('py-4');
-                nav.classList.remove('py-6');
-            } else {
-                header.classList.add('shadow-sm', 'bg-surface/90');
-                header.classList.remove('shadow-md', 'bg-surface/95');
-                
-                nav.classList.add('py-6');
-                nav.classList.remove('py-4');
-            }
+        prevBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
         });
-    </script>
-</body>
+        nextBtn.addEventListener('click', () => {
+            carousel.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+        });
+    }
+});
+</script>
 
-</html>
+@endsection

@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Penduduk;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\ValidationException;
 
 class RegisterController extends Controller
 {
@@ -50,9 +52,13 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'nama' => ['required', 'string', 'max:255'],
+            'nik' => ['required', 'string', 'size:16'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:3',],
+            'password' => ['required', 'string', 'min:3'],
+        ], [
+            'nik.required' => 'NIK wajib diisi.',
+            'nik.size' => 'NIK harus berjumlah 16 digit.',
+            'email.unique' => 'Email ini sudah terdaftar.',
         ]);
     }
 
@@ -64,10 +70,27 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // Find Penduduk by NIK
+        $penduduk = Penduduk::where('nik', $data['nik'])->first();
+        
+        if (!$penduduk) {
+            throw ValidationException::withMessages([
+                'nik' => ['NIK tidak ditemukan dalam basis data penduduk desa. Pastikan Anda warga terdaftar.'],
+            ]);
+        }
+
+        // Check if this Penduduk already has an account
+        if (User::where('penduduk_id', $penduduk->id)->exists()) {
+            throw ValidationException::withMessages([
+                'nik' => ['Akun untuk NIK ini sudah terdaftar. Silakan lakukan Login.'],
+            ]);
+        }
+
         return User::create([
-            'nama' => $data['nama'],
+            'penduduk_id' => $penduduk->id,
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'role' => 'masyarakat', // Default role for standard citizens
         ]);
     }
 }

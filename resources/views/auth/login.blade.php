@@ -5,7 +5,7 @@
     .login-wrapper {
         display: flex;
         justify-content: center;
-        margin-top: 60px;
+        
     }
 
     .login-card {
@@ -69,7 +69,7 @@
     .login-wrapper {
         display: flex;
         justify-content: center;
-        margin-top: 60px;
+        
     }
 
     .login-card {
@@ -204,6 +204,10 @@
 
                 <div class="d-grid mt-4">
                     <button class="btn btn-primary">Login</button>
+                </div>
+
+                <div class="mt-4 text-center">
+                    <p class="mb-0 text-muted">Belum punya akun? <a href="{{ route('register') }}" class="fw-semibold text-primary text-decoration-none">Daftar di sini</a></p>
                 </div>
             </form>
         </div>

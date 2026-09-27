@@ -91,7 +91,7 @@
                                 src="{{ auth()->user()->foto ? asset('storage/profile/' . auth()->user()->foto) : asset('images/users/avatar-1.jpg') }}"
                                 alt="Header Avatar">
                             <span class="d-none d-xl-inline-block ms-1"
-                                key="t-henry">{{ Auth::user()->nama ?? '-' }}</span>
+                                key="t-henry">{{ Auth::user()->role === 'admin' ? 'Administrator' : (Auth::user()->penduduk->nama ?? '-') }}</span>
                             <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                         </button>
                         <div class="dropdown-menu dropdown-menu-end">

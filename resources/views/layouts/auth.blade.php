@@ -22,7 +22,7 @@
 </head>
 
 <body>
-    <div class="account-pages my-5 pt-sm-5">
+    <div class="account-pages d-flex align-items-center min-vh-100">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8 col-lg-6 col-xl-5">
