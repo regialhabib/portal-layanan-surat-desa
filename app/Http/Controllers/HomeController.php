@@ -93,6 +93,10 @@ class HomeController extends Controller
 
     public function home()
     {
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('pengajuan-surat.create');
+        }
+
         /*
         |--------------------------------------------------------------------------
         | Statistik
@@ -109,11 +113,9 @@ class HomeController extends Controller
 
         $jumlahPengajuan = PengajuanSurat::count();
 
-        $jumlahMenunggu = PengajuanSurat::where('status', 'menunggu')
-            ->count();
+        $jumlahMenunggu = PengajuanSurat::where('status', 'diajukan')->count();
 
-        $jumlahDiproses = PengajuanSurat::where('status', 'diproses')
-            ->count();
+        $jumlahDiproses = 0; // The 'diproses' status is not in the ENUM
 
         $jumlahSelesai = PengajuanSurat::where('status', 'selesai')
             ->count();

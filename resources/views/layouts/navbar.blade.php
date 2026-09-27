@@ -1,7 +1,7 @@
  <div id="sidebar-menu">
      <!-- Left Menu Start -->
      <ul class="metismenu list-unstyled" id="side-menu">
-         <li class="menu-title" key="t-menu">Menu Utama</li>
+
 
          @can('admin')
              <li>
@@ -45,19 +45,19 @@
          @endcan
 
          @can('masyarakat')
+             <li class="menu-title" key="t-layanan">Layanan Surat</li>
+             
              <li>
-                 <a href="javascript: void(0);" class="has-arrow waves-effect">
-                     <i class="bx bx-file-find"></i>
-                     <span>Pelayanan Surat</span>
+                 <a href="{{ route('pengajuan-surat.create') }}" class="waves-effect">
+                     <i class="bx bx-edit-alt"></i>
+                     <span>Buat Pengajuan Baru</span>
                  </a>
-                 <ul class="sub-menu" aria-expanded="false">
-                     <li>
-                         <a href="{{ route('pengajuan-surat.create') }}">Ajukan Surat</a>
-                     </li>
-                     <li>
-                         <a href="{{ route('masyarakat.riwayat-pengajuan') }}">Riwayat Pengajuan</a>
-                     </li>
-                 </ul>
+             </li>
+             <li>
+                 <a href="{{ route('masyarakat.riwayat-pengajuan') }}" class="waves-effect">
+                     <i class="bx bx-history"></i>
+                     <span>Riwayat Pengajuan</span>
+                 </a>
              </li>
          @endcan
 

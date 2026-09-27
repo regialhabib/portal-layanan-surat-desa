@@ -324,14 +324,22 @@ class PengajuanSuratController extends Controller
         );
     }
 
-    public function riwayatMasyarakat()
+    public function riwayatMasyarakat(\Illuminate\Http\Request $request)
     {
-        $pengajuanSurat = PengajuanSurat::with([
-            'jenisSurat'
-        ])
-            ->where('user_id', auth()->id())
-            ->latest()
-            ->get();
+        $filter = $request->query('filter');
+
+        $query = PengajuanSurat::with(['jenisSurat'])
+            ->where('user_id', auth()->id());
+
+        if ($filter) {
+            if ($filter === 'diproses') {
+                $query->whereIn('status', ['diajukan', 'diproses']);
+            } else {
+                $query->where('status', $filter);
+            }
+        }
+
+        $pengajuanSurat = $query->latest()->get();
 
         return view(
             'pengajuan_surat.riwayat_masyarakat',

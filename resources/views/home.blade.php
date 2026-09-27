@@ -98,7 +98,7 @@
                                     <td class="px-4 py-3">{{ $item->user->penduduk->nama ?? '-' }}</td>
                                     <td class="px-4 py-3">{{ $item->jenisSurat->nama_surat ?? '-' }}</td>
                                     <td class="px-4 py-3">
-                                        @if ($item->status == 'menunggu')
+                                        @if ($item->status == 'diajukan')
                                             <span class="badge rounded-pill px-3 py-1" style="background:#FAEEDA;color:#854F0B;font-size:11px;">Menunggu</span>
                                         @elseif ($item->status == 'diproses')
                                             <span class="badge rounded-pill px-3 py-1" style="background:#E6F1FB;color:#185FA5;font-size:11px;">Diproses</span>
