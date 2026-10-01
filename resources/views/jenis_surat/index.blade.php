@@ -6,9 +6,6 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h4 class="card-title mb-0">Data Jenis Surat</h4>
-                <a href="{{ route('jenis-surat.create') }}" class="btn btn-primary btn-sm">
-                    <i class="bx bx-plus"></i> Tambah Jenis Surat
-                </a>
             </div>
             <div class="card-body">
                 
@@ -59,12 +56,7 @@
                                 @endif
                             </td>
                             <td>
-                                <a href="{{ route('jenis-surat.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('jenis-surat.destroy', $item->id) }}" method="POST" class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus?')">Hapus</button>
-                                </form>
+                                <a href="{{ route('jenis-surat.edit', $item->id) }}" class="btn btn-warning btn-sm">Edit Syarat</a>
                             </td>
                         </tr>
                         @endforeach

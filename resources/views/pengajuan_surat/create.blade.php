@@ -111,35 +111,53 @@
 
                 container.innerHTML = '<p>Loading...</p>';
 
-                fetch(`/jenis-surat/${id}/syarat`)
+                fetch(`/jenis-surat/${id}/detail`)
                     .then(response => response.json())
                     .then(data => {
-                        if (data.length === 0) {
-                            container.innerHTML = '<div class="alert alert-warning">Tidak ada persyaratan untuk jenis surat ini.</div>';
-                            return;
+                        let html = '';
+                        
+                        // Handle Isian Dinamis
+                        if (data.isian && data.isian.length > 0) {
+                            html += '<h5 class="mt-4 mb-3">Informasi Tambahan</h5><div class="row">';
+                            data.isian.forEach(field => {
+                                html += `
+                                    <div class="col-md-12 mb-3">
+                                        <label class="form-label">${field.label}</label>
+                                        <input type="${field.type}" name="data_tambahan[${field.name}]" class="form-control" required>
+                                    </div>
+                                `;
+                            });
+                            html += '</div><hr>';
                         }
 
-                        let html = '<div class="row">';
-                        data.forEach(syarat => {
-                            let accept = '';
-                            if (syarat.format_file === 'image') accept = 'accept="image/*"';
-                            else if (syarat.format_file === 'pdf') accept = 'accept="application/pdf"';
-                            else accept = 'accept="image/*,application/pdf"';
+                        // Handle Syarat File
+                        html += '<h5 class="mt-4 mb-3">Dokumen Persyaratan</h5>';
+                        if (data.syarat && data.syarat.length > 0) {
+                            html += '<div class="row">';
+                            data.syarat.forEach(syarat => {
+                                let accept = '';
+                                if (syarat.format_file === 'image') accept = 'accept="image/*"';
+                                else if (syarat.format_file === 'pdf') accept = 'accept="application/pdf"';
+                                else accept = 'accept="image/*,application/pdf"';
 
-                            const inputName = slugify(syarat.nama_syarat);
+                                const inputName = slugify(syarat.nama_syarat);
 
-                            html += `
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">${syarat.nama_syarat}</label>
-                                    <input type="file" name="${inputName}" class="form-control" ${accept} required>
-                                </div>
-                            `;
-                        });
-                        html += '</div>';
+                                html += `
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">${syarat.nama_syarat}</label>
+                                        <input type="file" name="${inputName}" class="form-control" ${accept} required>
+                                    </div>
+                                `;
+                            });
+                            html += '</div>';
+                        } else {
+                            html += '<div class="alert alert-warning">Tidak ada persyaratan dokumen untuk jenis surat ini.</div>';
+                        }
+                        
                         container.innerHTML = html;
                     })
                     .catch(error => {
-                        console.error('Error fetching syarat:', error);
+                        console.error('Error fetching details:', error);
                         container.innerHTML = '<div class="alert alert-danger">Gagal mengambil data persyaratan.</div>';
                     });
             });

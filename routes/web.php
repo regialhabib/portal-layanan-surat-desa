@@ -32,15 +32,17 @@ Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.sh
 Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [HomeController::class, 'home'])->name('dashboard');
-    /* Route Pengajuan Surat */
-    Route::get('/pengajuan-surat', [PengajuanSuratController::class, 'index'])->name('pengajuan-surat.index');
     Route::get('/pengajuan-surat/create', [PengajuanSuratController::class, 'create'])->name('pengajuan-surat.create');
-    Route::get('/pengajuan-surat/riwayat', [PengajuanSuratController::class, 'riwayat'])->name('pengajuan-surat.riwayat');
     Route::post('/pengajuan-surat', [PengajuanSuratController::class, 'store'])->name('pengajuan-surat.store');
+    Route::delete('/pengajuan-surat/{pengajuanSurat}', [PengajuanSuratController::class, 'destroy'])->name('pengajuan-surat.destroy');
 
-    Route::prefix('pengajuan-surat')
-        ->name('pengajuan-surat.')
-        ->group(function () {
+    Route::middleware('can:admin')->group(function () {
+        Route::get('/pengajuan-surat', [PengajuanSuratController::class, 'index'])->name('pengajuan-surat.index');
+        Route::get('/pengajuan-surat/riwayat', [PengajuanSuratController::class, 'riwayat'])->name('pengajuan-surat.riwayat');
+
+        Route::prefix('pengajuan-surat')
+            ->name('pengajuan-surat.')
+            ->group(function () {
 
             /*
         |--------------------------------------------------------------------------
@@ -71,6 +73,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/riwayat', [PengajuanSuratController::class, 'riwayat'])
                 ->name('riwayat');
         });
+    });
 
     /* Route Penduduk */
     Route::get('/penduduk', [PendudukController::class, 'index'])->name('penduduk.index');
@@ -110,6 +113,6 @@ Route::middleware('auth')->group(function () {
             'berita' => 'berita'
         ]);
 
-    Route::resource('jenis-surat', \App\Http\Controllers\JenisSuratController::class);
-    Route::get('/jenis-surat/{id}/syarat', [\App\Http\Controllers\JenisSuratController::class, 'getSyarat']);
+    Route::resource('jenis-surat', \App\Http\Controllers\JenisSuratController::class)->except(['create', 'store', 'destroy']);
+    Route::get('/jenis-surat/{id}/detail', [\App\Http\Controllers\JenisSuratController::class, 'getDetail']);
 });

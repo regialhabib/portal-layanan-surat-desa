@@ -204,7 +204,7 @@
 
                                 </td>
 
-                                <td>
+                                <td class="d-flex gap-1">
 
                                     <button class="btn btn-info btn-sm btn-detail"
                                         data-url="{{ route('pengajuan-surat.show', $item->id) }}" data-bs-toggle="modal"
@@ -213,6 +213,14 @@
                                         <i class="bx bx-show"></i>
 
                                     </button>
+                                    
+                                    <form id="delete-form-{{ $item->id }}" action="{{ route('pengajuan-surat.destroy', $item->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger btn-sm btn-delete" data-id="{{ $item->id }}" title="Hapus Pengajuan">
+                                            <i class="bx bx-trash"></i>
+                                        </button>
+                                    </form>
 
                                 </td>
 
@@ -527,6 +535,26 @@
 
             }
 
+        });
+        
+        document.querySelectorAll('.btn-delete').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                Swal.fire({
+                    title: 'Hapus Pengajuan?',
+                    text: "Data pengajuan dan semua dokumen terkait akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('delete-form-' + id).submit();
+                    }
+                });
+            });
         });
     </script>
 @endpush

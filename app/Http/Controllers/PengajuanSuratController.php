@@ -68,6 +68,7 @@ class PengajuanSuratController extends Controller
         $validated = $request->validate([
             'jenis_surat_id' => 'required|exists:jenis_surat,id',
             'keperluan'      => 'required|string',
+            'data_tambahan'  => 'nullable|array',
         ]);
 
         $jenisSurat = JenisSurat::with('syarat')->findOrFail($request->jenis_surat_id);
@@ -100,6 +101,7 @@ class PengajuanSuratController extends Controller
                 'user_id'             => Auth::id(),
                 'jenis_surat_id'      => $request->jenis_surat_id,
                 'keperluan'           => $request->keperluan,
+                'data_tambahan'       => $request->data_tambahan,
                 'status'              => 'diajukan',
                 'tanggal_pengajuan'   => now(),
             ]);
@@ -120,9 +122,15 @@ class PengajuanSuratController extends Controller
 
             DB::commit();
 
-            return redirect()
-                ->route('pengajuan-surat.index')
-                ->with('success', 'Pengajuan surat berhasil dikirim.');
+            if (auth()->user()->role === 'admin') {
+                return redirect()
+                    ->route('pengajuan-surat.index')
+                    ->with('success', 'Pengajuan surat berhasil dikirim.');
+            } else {
+                return redirect()
+                    ->route('masyarakat.riwayat-pengajuan')
+                    ->with('success', 'Pengajuan surat berhasil dikirim.');
+            }
         } catch (\Exception $e) {
 
             DB::rollBack();
@@ -165,7 +173,34 @@ class PengajuanSuratController extends Controller
      */
     public function destroy(PengajuanSurat $pengajuanSurat)
     {
-        //
+        if (auth()->user()->role !== 'admin' && auth()->user()->id !== $pengajuanSurat->user_id) {
+            abort(403, 'Anda tidak memiliki akses.');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            $persyaratanPath = 'persyaratan/' . $pengajuanSurat->id;
+            if (\Illuminate\Support\Facades\Storage::disk('public')->exists($persyaratanPath)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->deleteDirectory($persyaratanPath);
+            }
+
+            if ($pengajuanSurat->file_surat && \Illuminate\Support\Facades\Storage::disk('public')->exists($pengajuanSurat->file_surat)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($pengajuanSurat->file_surat);
+            }
+
+            $pengajuanSurat->delete();
+
+            DB::commit();
+
+            return redirect()->back()->with('success', 'Pengajuan surat berhasil dihapus beserta file terkait.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Gagal menghapus pengajuan surat', [
+                'message' => $e->getMessage(),
+            ]);
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus pengajuan surat.');
+        }
     }
 
     public function proses(PengajuanSurat $pengajuanSurat)
@@ -254,19 +289,40 @@ class PengajuanSuratController extends Controller
         return response()->json($pengajuanSurat);
     }
 
-    public function selesaikan(
-        Request $request,
-        PengajuanSurat $pengajuanSurat
-    ) {
-        $request->validate([
-            'file_surat' => 'required|file|mimes:pdf|max:2048',
-        ]);
+    public function selesaikan(Request $request, PengajuanSurat $pengajuanSurat)
+    {
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'Anda tidak memiliki akses.');
+        }
+
+        // Edge Case: Check status
+        if (!in_array($pengajuanSurat->status, ['diajukan', 'diproses'])) {
+            return redirect()
+                ->back()
+                ->with('error', 'Hanya pengajuan dengan status diajukan atau diproses yang dapat diselesaikan.');
+        }
 
         try {
+            $pengajuanSurat->load(['user.penduduk', 'jenisSurat']);
+            
+            $viewName = 'format_surat.' . \Illuminate\Support\Str::slug($pengajuanSurat->jenisSurat->nama_surat);
+            
+            // Edge Case: Check if view exists
+            if (!view()->exists($viewName)) {
+                return redirect()
+                    ->back()
+                    ->with('error', 'Template untuk surat ini belum tersedia.');
+            }
 
-            $path = $request
-                ->file('file_surat')
-                ->store('surat-selesai', 'public');
+            // Generate PDF
+            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView($viewName, compact('pengajuanSurat'));
+
+            // Set file name and path
+            $fileName = 'surat_' . $pengajuanSurat->id . '_' . time() . '.pdf';
+            $path = 'surat-selesai/' . $fileName;
+
+            // Save PDF to public storage
+            \Illuminate\Support\Facades\Storage::disk('public')->put($path, $pdf->output());
 
             $pengajuanSurat->update([
                 'status' => 'selesai',
@@ -276,16 +332,16 @@ class PengajuanSuratController extends Controller
 
             return redirect()
                 ->back()
-                ->with('success', 'Pengajuan berhasil diproses dan diselesaikan.');
+                ->with('success', 'Surat berhasil digenerate dan diterbitkan.');
         } catch (\Exception $e) {
 
-            Log::error('Gagal menyelesaikan surat', [
+            \Illuminate\Support\Facades\Log::error('Gagal menyelesaikan surat', [
                 'message' => $e->getMessage(),
             ]);
 
             return redirect()
                 ->back()
-                ->with('error', 'Terjadi kesalahan.');
+                ->with('error', 'Terjadi kesalahan saat memproses surat: ' . $e->getMessage());
         }
     }
 

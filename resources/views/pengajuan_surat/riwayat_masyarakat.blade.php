@@ -71,11 +71,20 @@
                                     <div class="badge badge-soft-danger font-size-12 mb-2 w-100 text-center py-2 fw-semibold"><i class="bx bx-x-circle me-1"></i> Pengajuan Ditolak</div>
                                 @endif
                                 
-                                <button type="button" class="btn btn-outline-primary btn-sm w-100 waves-effect waves-light btn-detail rounded-3 fw-medium"
-                                    data-url="{{ route('masyarakat.show', $item->id) }}" data-bs-toggle="modal"
-                                    data-bs-target="#detailModal">
-                                    <i class="bx bx-show align-middle me-1"></i> Cek Detail
-                                </button>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-outline-primary btn-sm w-100 waves-effect waves-light btn-detail rounded-3 fw-medium"
+                                        data-url="{{ route('masyarakat.show', $item->id) }}" data-bs-toggle="modal"
+                                        data-bs-target="#detailModal">
+                                        <i class="bx bx-show align-middle me-1"></i> Detail
+                                    </button>
+                                    <form id="delete-form-{{ $item->id }}" action="{{ route('pengajuan-surat.destroy', $item->id) }}" method="POST" class="m-0 p-0" style="flex: 0 0 auto;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-outline-danger btn-sm waves-effect waves-light rounded-3 fw-medium px-3 btn-delete" data-id="{{ $item->id }}" title="Hapus Pengajuan">
+                                            <i class="bx bx-trash align-middle"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -199,6 +208,26 @@
                 console.error(error);
                 alert('Gagal mengambil data.');
             }
+        });
+
+        document.querySelectorAll('.btn-delete').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                Swal.fire({
+                    title: 'Hapus Pengajuan?',
+                    text: "Data pengajuan dan semua dokumen terkait akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('delete-form-' + id).submit();
+                    }
+                });
+            });
         });
     </script>
 @endpush

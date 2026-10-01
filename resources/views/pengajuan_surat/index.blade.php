@@ -16,6 +16,13 @@
                 </div>
             @endif
 
+            @if (session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="mdi mdi-alert-circle-outline me-2"></i> {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
             <!-- TABS & GRID -->
             <div class="card shadow-sm border-0 rounded-3 mb-4">
                 <div class="card-body p-0">
@@ -81,14 +88,23 @@
                                         <div class="badge badge-soft-warning font-size-12 mb-2 w-100 text-center py-2 fw-semibold text-warning" style="color: #f1b44c !important;"><i class="bx bx-hourglass me-1"></i> Menunggu Verifikasi</div>
                                     @endif
                                     
-                                    <button type="button" class="btn btn-outline-primary btn-sm w-100 waves-effect waves-light btn-detail rounded-3 fw-medium"
-                                        data-id="{{ $item->id }}"
-                                        data-url="{{ route('pengajuan-surat.show', $item->id) }}"
-                                        data-status="{{ $item->status }}"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#detailModal">
-                                        <i class="bx bx-show align-middle me-1"></i> Cek Detail
-                                    </button>
+                                    <div class="d-flex gap-2">
+                                        <button type="button" class="btn btn-outline-primary btn-sm w-100 waves-effect waves-light btn-detail rounded-3 fw-medium"
+                                            data-id="{{ $item->id }}"
+                                            data-url="{{ route('pengajuan-surat.show', $item->id) }}"
+                                            data-status="{{ $item->status }}"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#detailModal">
+                                            <i class="bx bx-show align-middle me-1"></i> Detail
+                                        </button>
+                                        <form id="delete-form-{{ $item->id }}" action="{{ route('pengajuan-surat.destroy', $item->id) }}" method="POST" class="m-0 p-0" style="flex: 0 0 auto;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-outline-danger btn-sm waves-effect waves-light rounded-3 fw-medium px-3 btn-delete" data-id="{{ $item->id }}" title="Hapus Pengajuan">
+                                                <i class="bx bx-trash align-middle"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -221,10 +237,9 @@
                                         <form id="form-selesai" method="POST" enctype="multipart/form-data" class="w-100">
                                             @csrf @method('PUT')
                                             
+                                            <!-- File upload removed. PDF is generated automatically. -->
                                             <div class="mb-4">
-                                                <label class="fw-bold text-dark mb-2 font-size-14"><i class="bx bx-upload me-1 text-primary"></i> Upload Surat (PDF)*</label>
-                                                <input type="file" name="file_surat" class="form-control form-control-sm border border-light bg-light" accept="application/pdf" required>
-                                                <small class="text-muted mt-2 d-block font-size-11">File akan otomatis dikirimkan ke pemohon.</small>
+                                                <small class="text-muted mt-2 d-block font-size-11">Surat PDF akan di-generate secara otomatis ketika Anda menekan tombol Selesaikan & Terbitkan.</small>
                                             </div>
                                             
                                             <div class="d-grid gap-2">
@@ -390,6 +405,25 @@
                 console.error("Failed to load details", error);
                 alert("Gagal memuat detail surat.");
             }
+        });
+        document.querySelectorAll('.btn-delete').forEach(button => {
+            button.addEventListener('click', function () {
+                const id = this.getAttribute('data-id');
+                Swal.fire({
+                    title: 'Hapus Pengajuan?',
+                    text: "Data pengajuan dan semua dokumen terkait akan dihapus secara permanen!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Ya, Hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('delete-form-' + id).submit();
+                    }
+                });
+            });
         });
     </script>
 @endpush

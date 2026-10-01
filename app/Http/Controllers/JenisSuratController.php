@@ -14,46 +14,6 @@ class JenisSuratController extends Controller
         return view('jenis_surat.index', compact('jenisSurat'));
     }
 
-    public function create()
-    {
-        return view('jenis_surat.create');
-    }
-
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'nama_surat' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
-            'aktif' => 'boolean',
-            'syarat' => 'nullable|array',
-            'syarat.*.nama_syarat' => 'required|string|max:255',
-            'syarat.*.format_file' => 'required|in:image,pdf,all',
-        ]);
-
-        DB::beginTransaction();
-        try {
-            $jenisSurat = JenisSurat::create([
-                'nama_surat' => $validated['nama_surat'],
-                'deskripsi' => $validated['deskripsi'] ?? null,
-                'aktif' => $request->has('aktif') ? true : false,
-            ]);
-
-            if (isset($validated['syarat'])) {
-                foreach ($validated['syarat'] as $syarat) {
-                    $jenisSurat->syarat()->create([
-                        'nama_syarat' => $syarat['nama_syarat'],
-                        'format_file' => $syarat['format_file'],
-                    ]);
-                }
-            }
-            DB::commit();
-            return redirect()->route('jenis-surat.index')->with('success', 'Jenis Surat berhasil ditambahkan.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
-        }
-    }
-
     public function edit($id)
     {
         $jenisSurat = JenisSurat::with('syarat')->findOrFail($id);
@@ -65,7 +25,6 @@ class JenisSuratController extends Controller
         $jenisSurat = JenisSurat::findOrFail($id);
         
         $validated = $request->validate([
-            'nama_surat' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'aktif' => 'boolean',
             'syarat' => 'nullable|array',
@@ -76,7 +35,6 @@ class JenisSuratController extends Controller
         DB::beginTransaction();
         try {
             $jenisSurat->update([
-                'nama_surat' => $validated['nama_surat'],
                 'deskripsi' => $validated['deskripsi'] ?? null,
                 'aktif' => $request->has('aktif') ? true : false,
             ]);
@@ -91,23 +49,43 @@ class JenisSuratController extends Controller
                 }
             }
             DB::commit();
-            return redirect()->route('jenis-surat.index')->with('success', 'Jenis Surat berhasil diperbarui.');
+            return redirect()->route('jenis-surat.index')->with('success', 'Syarat Jenis Surat berhasil diperbarui.');
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage())->withInput();
         }
     }
 
-    public function destroy($id)
+    public function getDetail($id)
     {
-        $jenisSurat = JenisSurat::findOrFail($id);
-        $jenisSurat->delete();
-        return redirect()->route('jenis-surat.index')->with('success', 'Jenis Surat berhasil dihapus.');
-    }
+        $jenisSurat = JenisSurat::with('syarat')->findOrFail($id);
+        
+        $isian = [];
+        $namaSurat = strtolower($jenisSurat->nama_surat);
+        
+        if (str_contains($namaSurat, 'usaha') || str_contains($namaSurat, 'sku')) {
+            $isian = [
+                ['name' => 'nama_usaha', 'label' => 'Nama Usaha / Jenis Usaha', 'type' => 'text']
+            ];
+        } elseif (str_contains($namaSurat, 'kematian')) {
+            $isian = [
+                ['name' => 'hari_tanggal_meninggal', 'label' => 'Hari / Tanggal Meninggal (mis: Senin, 12 Agustus 2024)', 'type' => 'text'],
+                ['name' => 'tempat_meninggal', 'label' => 'Tempat Meninggal', 'type' => 'text'],
+                ['name' => 'penyebab_meninggal', 'label' => 'Penyebab Meninggal', 'type' => 'text']
+            ];
+        } elseif (str_contains($namaSurat, 'nikah')) {
+            $isian = [
+                ['name' => 'nama_calon_pasangan', 'label' => 'Nama Calon Pasangan', 'type' => 'text']
+            ];
+        } elseif (str_contains($namaSurat, 'penghasilan')) {
+            $isian = [
+                ['name' => 'rata_rata_penghasilan_per_bulan', 'label' => 'Rata-rata Penghasilan per Bulan (mis: Rp. 2.000.000,-)', 'type' => 'text']
+            ];
+        }
 
-    public function getSyarat($id)
-    {
-        $jenisSurat = JenisSurat::findOrFail($id);
-        return response()->json($jenisSurat->syarat);
+        return response()->json([
+            'syarat' => $jenisSurat->syarat,
+            'isian' => $isian
+        ]);
     }
 }

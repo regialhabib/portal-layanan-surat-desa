@@ -20,47 +20,8 @@ class DatabaseSeeder extends Seeder
         | Jenis Surat & Syarat
         |--------------------------------------------------------------------------
         */
-
-        $suratDomisili = JenisSurat::create([
-            'nama_surat' => 'Surat Keterangan Domisili',
-            'deskripsi' => 'Surat resmi yang menerangkan domisili atau tempat tinggal warga.',
-            'aktif' => true,
-        ]);
-        $suratDomisili->syarat()->createMany([
-            ['nama_syarat' => 'Foto KTP', 'format_file' => 'image'],
-            ['nama_syarat' => 'Foto KK', 'format_file' => 'image']
-        ]);
-
-        $suratPenghasilan = JenisSurat::create([
-            'nama_surat' => 'Surat Keterangan Penghasilan',
-            'deskripsi' => 'Surat keterangan terkait rincian penghasilan warga.',
-            'aktif' => true,
-        ]);
-        $suratPenghasilan->syarat()->createMany([
-            ['nama_syarat' => 'Foto KTP', 'format_file' => 'image'],
-            ['nama_syarat' => 'Slip Gaji / Keterangan Usaha', 'format_file' => 'pdf']
-        ]);
-
-        $suratNikah = JenisSurat::create([
-            'nama_surat' => 'Surat Pengantar Nikah',
-            'deskripsi' => 'Surat pengantar administrasi untuk keperluan pernikahan.',
-            'aktif' => true,
-        ]);
-        $suratNikah->syarat()->createMany([
-            ['nama_syarat' => 'Foto KTP Calon Suami', 'format_file' => 'image'],
-            ['nama_syarat' => 'Foto KTP Calon Istri', 'format_file' => 'image'],
-            ['nama_syarat' => 'Surat Pengantar RT', 'format_file' => 'pdf']
-        ]);
-
-        $suratKematian = JenisSurat::create([
-            'nama_surat' => 'Surat Kematian',
-            'deskripsi' => 'Surat keterangan meninggal dunia.',
-            'aktif' => true,
-        ]);
-        $suratKematian->syarat()->createMany([
-            ['nama_syarat' => 'Foto KTP Pelapor', 'format_file' => 'image'],
-            ['nama_syarat' => 'Foto KTP Jenazah', 'format_file' => 'image'],
-            ['nama_syarat' => 'Surat Keterangan Dokter/RS', 'format_file' => 'pdf']
+        $this->call([
+            JenisSuratSeeder::class,
         ]);
 
         /*

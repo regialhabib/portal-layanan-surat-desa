@@ -16,12 +16,9 @@ class JenisSurat extends Model
         'aktif',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'aktif' => 'boolean',
-        ];
-    }
+    protected $casts = [
+        'aktif' => 'boolean',
+    ];
 
     public function pengajuanSurat()
     {

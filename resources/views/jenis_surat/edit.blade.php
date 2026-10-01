@@ -23,7 +23,7 @@
                     
                     <div class="mb-3">
                         <label for="nama_surat" class="form-label">Nama Surat</label>
-                        <input type="text" class="form-control" id="nama_surat" name="nama_surat" value="{{ old('nama_surat', $jenisSurat->nama_surat) }}" required>
+                        <input type="text" class="form-control bg-light" id="nama_surat" name="nama_surat" value="{{ old('nama_surat', $jenisSurat->nama_surat) }}" readonly>
                     </div>
 
                     <div class="mb-3">
