@@ -56,14 +56,14 @@ class HomeController extends Controller
         if ($request->hasFile('foto')) {
 
             // hapus foto lama jika ada
-            if ($user->foto && Storage::exists('public/profile/' . $user->foto)) {
-                Storage::delete('public/profile/' . $user->foto);
+            if ($user->foto && Storage::disk('public')->exists('profile/' . $user->foto)) {
+                Storage::disk('public')->delete('profile/' . $user->foto);
             }
 
             $file = $request->file('foto');
             $filename = time() . '.' . $file->getClientOriginalExtension();
 
-            $file->storeAs('public/profile', $filename);
+            $file->storeAs('profile', $filename, 'public');
 
             $user->foto = $filename;
         }
